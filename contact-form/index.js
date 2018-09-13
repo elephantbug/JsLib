@@ -2,6 +2,19 @@
 // https://www.w3.org/TR/html/sec-forms.html#email-state-typeemail
 var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
+function sendAjaxRequest() {
+    var ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                alert(this.responseText);
+            }
+        }
+    }
+    ajax.open('POST', 'validate-recaptcha.php', true);
+    ajax.send('recaptcha=' + "asdf");
+}
+
 new Vue({
   // root node
   el: "#app",
@@ -40,11 +53,14 @@ new Vue({
         .then((response) => {
             //do something awesome that makes the world a better place
             if (response.status == 200) {
-                alert(response.statusText + " " + response.responseText);
+                return response.json();
             }
             else {
                 alert("Error: " + response.statusText);
             }
+        }).then(data => 
+        {
+            alert(JSON.stringify(data));
         });
     },
     // validate by type and value
