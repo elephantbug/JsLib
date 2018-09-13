@@ -39,7 +39,12 @@ new Vue({
         })
         .then((response) => {
             //do something awesome that makes the world a better place
-            alert(response.statusText);
+            if (response.status == 200) {
+                alert(response.statusText + " " + response.responseText);
+            }
+            else {
+                alert("Error: " + response.statusText);
+            }
         });
     },
     // validate by type and value
