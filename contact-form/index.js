@@ -8,20 +8,14 @@ new Vue({
   // the instance state
   data: function() {
     return {
-      name: "John Doe",
+      name: "",
       email: {
-        value: "jo@hnd.oe",
+        value: "",
         valid: true
-      },
-      features: ["Reactivity", "Encapsulation", "Data Binding"],
-      selection: {
-        member: "0",
-        framework: "vue",
-        features: []
       },
       message: {
         text: `Dear Mr. President,\n...`,
-        maxlength: 255
+        maxlength: 64 * 1024
       },
       submitted: false
     };
@@ -41,10 +35,6 @@ new Vue({
     isEmail: function(value) {
       return emailRegExp.test(value);
     },
-    // check or uncheck all
-    checkAll: function(event) {
-      this.selection.features = event.target.checked ? this.features : [];
-    }
   },
   watch: {
     // watching nested property
