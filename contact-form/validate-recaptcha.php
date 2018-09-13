@@ -6,7 +6,9 @@ $sample =
  		'remoteip' => $_SERVER['REMOTE_ADDR']
  	);
 
-exit(json_encode($sample));
+$in_data = json_decode(file_get_contents('php://input'), true);
+
+exit(json_encode($in_data));
 
 //exit(json_encode($_POST));
 
