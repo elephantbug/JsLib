@@ -1,11 +1,5 @@
 ﻿<?php
 
-$sample =
- 	array (
- 		'secret' => 'yoursecretkey',
- 		'remoteip' => $_SERVER['REMOTE_ADDR']
- 	);
-
 $in_data = json_decode(file_get_contents('php://input'), true);
 
 exit(json_encode($in_data));
