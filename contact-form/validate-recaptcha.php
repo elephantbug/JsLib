@@ -1,6 +1,14 @@
 ﻿<?php
 
-exit(json_encode($_POST));
+$sample =
+ 	array (
+ 		'secret' => 'yoursecretkey',
+ 		'remoteip' => $_SERVER['REMOTE_ADDR']
+ 	);
+
+exit(json_encode($sample));
+
+//exit(json_encode($_POST));
 
 if (empty($_POST['recaptcha'])) {
 	exit('Please set recaptcha variable');

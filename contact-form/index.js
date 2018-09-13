@@ -2,33 +2,6 @@
 // https://www.w3.org/TR/html/sec-forms.html#email-state-typeemail
 var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-function sendAjaxRequest() {
-    if (grecaptcha === undefined) {
-        alert('Recaptcha not defined');
-        return;
-    }
-
-    var response = grecaptcha.getResponse();
-
-    if (!response) {
-        alert('Coud not get recaptcha response ' + response);
-        return;
-    }
-
-    alert('recaptcha response ' + response);
-
-    var ajax = new XMLHttpRequest();
-    ajax.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            if (this.status === 200) {
-                alert(this.responseText);
-            }
-        }
-    }
-    ajax.open('POST', 'validate-recaptcha.php', true);
-    ajax.send('recaptcha=' + response);
-}
-
 new Vue({
   // root node
   el: "#app",
@@ -49,9 +22,25 @@ new Vue({
   },
   methods: {
     // submit form handler
-    submit: function() {
-        sendAjaxRequest();
-        this.submitted = true;
+      submit: function ()
+      {
+        fetch("validate-recaptcha.php", {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            //make sure to serialize your JSON body
+            body: JSON.stringify({
+                name: "myName",
+                password: "myPassword"
+            })
+        })
+        .then((response) => {
+            //do something awesome that makes the world a better place
+            alert(response.statusText);
+        });
     },
     // validate by type and value
     validate: function(type, value) {
