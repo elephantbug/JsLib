@@ -2,15 +2,42 @@
 // https://www.w3.org/TR/html/sec-forms.html#email-state-typeemail
 var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
+function sendAjaxRequest() {
+    if (grecaptcha === undefined) {
+        alert('Recaptcha not defined');
+        return;
+    }
+
+    var response = grecaptcha.getResponse();
+
+    if (!response) {
+        alert('Coud not get recaptcha response ' + response);
+        return;
+    }
+
+    alert('recaptcha response ' + response);
+
+    var ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                alert(this.responseText);
+            }
+        }
+    }
+    ajax.open('POST', 'validate-recaptcha.php', true);
+    ajax.send('recaptcha=' + response);
+}
+
 new Vue({
   // root node
   el: "#app",
   // the instance state
   data: function() {
     return {
-      name: "",
+      name: "John Smith",
       email: {
-        value: "",
+        value: "js@gopnik.ru",
         valid: true
       },
       message: {
@@ -23,7 +50,8 @@ new Vue({
   methods: {
     // submit form handler
     submit: function() {
-      this.submitted = true;
+        sendAjaxRequest();
+        this.submitted = true;
     },
     // validate by type and value
     validate: function(type, value) {
